@@ -1,0 +1,2 @@
+package_name(ENV.fetch("ANDROID_PACKAGE_NAME", "com.example.flutter_template"))
+json_key_file(ENV.fetch("ANDROID_JSON_KEY_FILE", "../play-store-service-account.json"))

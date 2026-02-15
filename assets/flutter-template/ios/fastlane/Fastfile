@@ -1,0 +1,32 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Run Flutter tests"
+  lane :test do
+    sh("cd .. && flutter test")
+  end
+
+  desc "Build iOS release (without code signing)"
+  lane :build_release do
+    sh("cd .. && flutter pub get")
+    sh("cd .. && flutter build ios --release --no-codesign")
+  end
+
+  desc "Build signed IPA for distribution"
+  lane :build_ipa do
+    sh("cd .. && flutter pub get")
+    sh("cd .. && flutter build ipa --release")
+  end
+
+  desc "Upload build to TestFlight"
+  lane :beta do
+    build_ipa
+    upload_to_testflight(skip_waiting_for_build_processing: true)
+  end
+
+  desc "Submit build to App Store"
+  lane :release do
+    build_ipa
+    upload_to_app_store
+  end
+end
